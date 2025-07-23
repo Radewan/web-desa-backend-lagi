@@ -23,7 +23,7 @@ export class PublicService {
     const newsWithUser = await Promise.all(
       news.map(async (n) => {
         const response = await axios.get(
-          `http://localhost:3001/api/users/${n.userId}`
+          `http://localhost:3000/api/users/${n.userId}`
         );
         return {
           user_created: response.data.user,
@@ -50,10 +50,10 @@ export class PublicService {
     });
 
     const comments = await axios.get(
-      `http://localhost:3001/api/comments/${newsId}`
+      `http://localhost:3000/api/comments/${newsId}`
     );
     const user = await axios.get(
-      `http://localhost:3002/api/users/${news.userId}`
+      `http://localhost:3000/api/users/${news.userId}`
     );
     return {
       user_created: user.data.user,
@@ -72,10 +72,10 @@ export class PublicService {
     }
 
     const comments = await axios.get(
-      `http://localhost:3001/api/comments/${newsId}`
+      `http://localhost:3000/api/comments/${newsId}`
     );
     const user = await axios.get(
-      `http://localhost:3002/api/users/${news.userId}`
+      `http://localhost:3000/api/users/${news.userId}`
     );
     return {
       user_created: user.data.user,
