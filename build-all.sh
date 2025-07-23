@@ -4,7 +4,6 @@
 services=(
   administrasi-service
   agenda-service
-  api-gateway
   comment-service
   galeri-service
   infografis-service
