@@ -49,16 +49,19 @@ export class PublicService {
       },
     });
 
-    const comments = await axios.get(
-      `http://localhost:3000/api/comments/${newsId}`
-    );
-    const user = await axios.get(
-      `http://localhost:3000/api/users/${news.userId}`
-    );
+    // const comments = await axios.get(
+    //   `http://localhost:3000/api/comments/${newsId}`
+    // );
+    // const user = await axios.get(
+    //   `http://localhost:3000/api/users/${news.userId}`
+    // );
     return {
-      user_created: user.data.user,
+      user_created: {},
       news: news,
-      comments: comments.data.comments,
+      comments: [],
+      // user_created: user.data.user,
+      // news: news,
+      // comments: comments.data.comments,
     };
   }
 
