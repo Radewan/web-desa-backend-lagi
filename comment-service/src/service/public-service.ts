@@ -15,7 +15,7 @@ export class PublicService {
     const enrichedComments = await Promise.all(
       comments.map(async (comment) => {
         const response = await axios.get(
-          `http://localhost:3001/api/users/${comment.user_id}`
+          `http://localhost:3000/api/users/${comment.user_id}`
         );
         return {
           ...response.data,

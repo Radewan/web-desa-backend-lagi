@@ -19,9 +19,9 @@ export class PrivateService {
     Validation.validate(CommentValidation.create, request);
 
     if (request.target_type === TargetType.NEWS) {
-      await axios.get(`http://localhost:3001/api/news/${targetId}`);
+      await axios.get(`http://localhost:3000/api/news/${targetId}`);
     } else if (request.target_type === TargetType.AGENDA) {
-      await axios.get(`http://localhost:3001/api/agenda/${targetId}`);
+      await axios.get(`http://localhost:3000/api/agenda/${targetId}`);
     }
     const comment = await prismaClient.comment.create({
       data: {
@@ -93,7 +93,7 @@ export class PrivateService {
   ) {
     if (targetType === TargetType.NEWS) {
       const news = await axios.get(
-        `http://localhost:3001/api/news/all-type/${targetId}`
+        `http://localhost:3000/api/news/all-type/${targetId}`
       );
       if (news.data.news.userId !== user.id) {
         throw new ResponseError(
@@ -103,7 +103,7 @@ export class PrivateService {
       }
     } else if (targetType === TargetType.AGENDA) {
       const agenda = await axios.get(
-        `http://localhost:3001/api/agenda/all-type/${targetId}`
+        `http://localhost:3000/api/agenda/all-type/${targetId}`
       );
       if (agenda.data.agenda.userId !== user.id) {
         throw new ResponseError(
@@ -113,7 +113,7 @@ export class PrivateService {
       }
     } else if (targetType === TargetType.PRODUCT) {
       const product = await axios.get(
-        `http://localhost:3001/api/products/${targetId}`
+        `http://localhost:3000/api/products/${targetId}`
       );
       if (product.data.product.user_id !== user.id) {
         throw new ResponseError(

@@ -134,7 +134,7 @@ export class AdminService {
     }
 
     await axios.delete(
-      `http://localhost:3001/api/comments/delete-by-target/${agendaId}?targetType=AGENDA`,
+      `http://localhost:3000/api/comments/delete-by-target/${agendaId}?targetType=AGENDA`,
       {
         headers: {
           Authorization: token,
@@ -166,7 +166,7 @@ export class AdminService {
     await Promise.all(
       agenda.map((n) => {
         return axios.delete(
-          `http://localhost:3001/api/comments/delete-by-target/${n.id}?targetType=AGENDA`,
+          `http://localhost:3000/api/comments/delete-by-target/${n.id}?targetType=AGENDA`,
           {
             headers: {
               Authorization: token,

@@ -16,7 +16,7 @@ export const authMiddleware = async (
       throw new ResponseError(401, "Unauthorized");
     }
 
-    const response = await axios.get("http://localhost:3001/api/users/", {
+    const response = await axios.get("http://localhost:3000/api/users/", {
       headers: {
         Authorization: headerAuthorization,
       },

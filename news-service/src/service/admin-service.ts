@@ -126,7 +126,7 @@ export class AdminService {
     }
 
     await axios.delete(
-      `http://localhost:3001/api/comments/delete-by-target/${newsId}?targetType=NEWS`,
+      `http://localhost:3000/api/comments/delete-by-target/${newsId}?targetType=NEWS`,
       {
         headers: {
           Authorization: token,
@@ -156,7 +156,7 @@ export class AdminService {
     await Promise.all(
       news.map((n) => {
         return axios.delete(
-          `http://localhost:3001/api/comments/delete-by-target/${n.id}?targetType=NEWS`,
+          `http://localhost:3000/api/comments/delete-by-target/${n.id}?targetType=NEWS`,
           {
             headers: {
               Authorization: token,

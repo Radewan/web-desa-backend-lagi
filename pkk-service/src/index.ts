@@ -4,7 +4,7 @@ import path from "node:path";
 
 dotenv.config();
 
-const port = parseInt(process.env.PORT ?? "3004");
+const port = parseInt(process.env.PORT ?? "3000");
 
 web.listen(port, () => {
   console.log(`Liten at port ${port}`);

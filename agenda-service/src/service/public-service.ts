@@ -26,7 +26,7 @@ export class PublicService {
     const agendaWithUser = await Promise.all(
       agenda.map(async (agenda) => {
         const response = await axios.get(
-          `http://localhost:3001/api/users/${agenda.userId}`
+          `http://localhost:3000/api/users/${agenda.userId}`
         );
         return {
           user_created: response.data.user,
@@ -58,10 +58,10 @@ export class PublicService {
     });
 
     const comments = await axios.get(
-      `http://localhost:3001/api/comments/${agendaId}`
+      `http://localhost:3000/api/comments/${agendaId}`
     );
     const user = await axios.get(
-      `http://localhost:3002/api/users/${agenda.userId}`
+      `http://localhost:3000/api/users/${agenda.userId}`
     );
     return {
       user_created: user.data.user,
@@ -80,10 +80,10 @@ export class PublicService {
     }
 
     const comments = await axios.get(
-      `http://localhost:3001/api/comments/${agendaId}`
+      `http://localhost:3000/api/comments/${agendaId}`
     );
     const user = await axios.get(
-      `http://localhost:3002/api/users/${agenda.userId}`
+      `http://localhost:3000/api/users/${agenda.userId}`
     );
     return {
       user_created: user.data.user,
