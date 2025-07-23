@@ -22,7 +22,10 @@ for service in "${services[@]}"; do
     cd "$service"
     
     # Jalankan npm install (kalau perlu)
-    # npm install
+    npm install
+
+    # untuk database
+    npx prisma migrate deploy
 
     # Jalankan npm run build
     npm run build
