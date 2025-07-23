@@ -1,0 +1,209 @@
+http:
+  port: 3000
+apiEndpoints:
+  # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/apiEndpoints
+  user:
+    path: /api/users/*
+    target: http://localhost:3001
+  message:
+    path: /api/messages/*
+    target: http://localhost:3002
+  news:
+    path: /api/news/*
+    target: http://localhost:3003
+  agenda:
+    path: /api/agenda/*
+    target: http://localhost:3004
+  comment:
+    path: /api/comments/*
+    target: http://localhost:3005
+  galeri:
+    path: /api/galeri/*
+    target: http://localhost:3006
+  product:
+    path: /api/products/*
+    target: http://localhost:3007
+  organization:
+    path: /api/organizations/*
+    target: http://localhost:3008
+  program:
+    path: /api/programs/*
+    target: http://localhost:3009
+  administrasi:
+    path: /api/administrasi/*
+    target: http://localhost:3010
+  infografis:
+    path: /api/infografis/*
+    target: http://localhost:3011
+serviceEndpoints:
+  # see: http://www.express-gateway.io/docs/configuration/gateway.config.yml/serviceEndpoints
+  user-service:
+    url: http://localhost:3001
+  message-service:
+    url: http://localhost:3002
+  news-service:
+    url: http://localhost:3003
+  agenda-service:
+    url: http://localhost:3004
+  comment-service:
+    url: http://localhost:3005
+  galeri-service :
+    url: http://localhost:3006
+  product-service:
+    url: http://localhost:3007
+  organization-service:
+    url: http://localhost:3008
+  program-service:
+    url: http://localhost:3009
+  administrasi-service:
+    url: http://localhost:3010
+  infografis-service:
+    url: http://localhost:3011
+policies:
+  - cors
+  - proxy
+pipelines:
+  # see: https://www.express-gateway.io/docs/configuration/gateway.config.yml/pipelines
+  user-pipeline:
+    apiEndpoints:
+      - user
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: user-service
+  message-pipeline:
+    apiEndpoints:
+      - message
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: message-service
+  news-pipeline:
+    apiEndpoints:
+      - news
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: news-service
+  agenda-pipeline:
+    apiEndpoints:
+      - agenda
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: agenda-service
+  comment-pipeline:
+    apiEndpoints:
+      - comment
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: comment-service
+  galeri-pipeline:
+    apiEndpoints:
+      - galeri
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: galeri-service
+  product-pipeline:
+    apiEndpoints:
+      - product
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: product-service
+  organization-pipeline:
+    apiEndpoints:
+      - organization
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: organization-service
+  program-pipeline:
+    apiEndpoints:
+      - program
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: program-service
+  administrasi-pipeline:
+    apiEndpoints:
+      - administrasi
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: administrasi-service
+  infografis-pipeline:
+    apiEndpoints:
+      - infografis
+    policies:
+      - cors:
+          - action:
+              origin: 'http://103.189.235.67'  # ganti dengan IP/domain frontend kamu
+              methods: 'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+              allowedHeaders: '*'
+              credentials: true
+      - proxy:
+          - action:
+              serviceEndpoint: infografis-service

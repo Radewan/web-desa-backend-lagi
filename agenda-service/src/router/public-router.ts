@@ -1,0 +1,8 @@
+import express from "express";
+import { PublicController } from "../controller/public-controller";
+export const publicRouter = express.Router();
+
+publicRouter.get("/", PublicController.getAll);
+publicRouter.get("/:agendaId", PublicController.getById);
+publicRouter.get("/all-type/:agendaId", PublicController.getAllTypeById);
+
