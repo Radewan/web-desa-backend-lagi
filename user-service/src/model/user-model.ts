@@ -3,7 +3,8 @@ import { Role, User } from "@prisma/client";
 export interface UserResponse {
   id: string;
   name: string;
-  email: string;
+  email: string | null;
+  phone_number: string | null;
   role: string;
   created_at: Date;
   updated_at: Date;
@@ -18,18 +19,20 @@ export interface UserAllResponse {
 
 export interface UserRegisterRequest {
   name: string;
-  email: string;
+  email?: string;
+  phone_number?: string;
   password: string;
   confirm_password: string;
   remember_me: boolean;
-  re_captcha_token: string;
+  recaptcha_token: string;
 }
 
 export interface UserLoginRequest {
-  email: string;
+  email?: string;
+  phone_number?: string;
   password: string;
   remember_me: boolean;
-  re_captcha_token: string;
+  recaptcha_token: string;
 }
 
 export interface UserUpdateRequest {
@@ -59,6 +62,7 @@ export const toUserResponse = (user: User): UserResponse => {
   return {
     id: user.id,
     name: user.name,
+    phone_number: user.phone_number,
     email: user.email,
     role: user.role,
     created_at: user.created_at,

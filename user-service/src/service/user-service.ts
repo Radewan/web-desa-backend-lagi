@@ -25,7 +25,7 @@ export class UserService {
       {
         params: {
           secret: process.env.RECAPTCHA_SECRET_KEY,
-          response: request.re_captcha_token,
+          response: request.recaptcha_token,
         },
       }
     );
@@ -33,21 +33,18 @@ export class UserService {
     const { success } = googleResponse.data;
 
     if (!success) {
-      throw new ResponseError(403, "reCAPTCHA verification failed");
+      throw new ResponseError(403, "Recaptcha verification failed");
     }
 
-    if (request.password !== request.confirm_password) {
-      throw new ResponseError(400, "Passwords do not match");
-    }
-
-    const findUserWithSameEmail = await prismaClient.user.count({
+    const findUserWithSameEmaiOrPhone = await prismaClient.user.count({
       where: {
-        email: request.email,
+        email: request.email ?? undefined,
+        phone_number: request.phone_number ?? undefined,
       },
     });
 
-    if (findUserWithSameEmail !== 0) {
-      throw new ResponseError(400, "Email already registered");
+    if (findUserWithSameEmaiOrPhone !== 0) {
+      throw new ResponseError(400, "Email or phone number already registered");
     }
 
     request.password = await bcryptjs.hash(request.password, 10);
@@ -55,7 +52,8 @@ export class UserService {
     const user = await prismaClient.user.create({
       data: {
         name: request.name,
-        email: request.email,
+        email: request.email ?? null,
+        phone_number: request.phone_number ?? null,
         password: request.password,
         role: "REGULAR",
       },
@@ -78,16 +76,16 @@ export class UserService {
       user: userResponse,
     };
   }
+
   static async login(request: UserLoginRequest) {
     Validation.validate(UserValidation.login, request);
-
     const googleResponse = await axios.post(
       `https://www.google.com/recaptcha/api/siteverify`,
       null,
       {
         params: {
           secret: process.env.RECAPTCHA_SECRET_KEY,
-          response: request.re_captcha_token,
+          response: request.recaptcha_token,
         },
       }
     );
@@ -95,15 +93,23 @@ export class UserService {
     const { success } = googleResponse.data;
 
     if (!success) {
-      throw new ResponseError(403, "reCAPTCHA verification failed");
+      throw new ResponseError(403, "Recaptcha verification failed");
     }
 
-    const user = await prismaClient.user.findUnique({
-      where: { email: request.email },
-    });
+    let user = null;
+
+    if (request.email) {
+      user = await prismaClient.user.findUnique({
+        where: { email: request.email },
+      });
+    } else if (request.phone_number) {
+      user = await prismaClient.user.findUnique({
+        where: { phone_number: request.phone_number },
+      });
+    }
 
     if (!user || !(await bcryptjs.compare(request.password, user.password))) {
-      throw new ResponseError(400, "Invalid email or password");
+      throw new ResponseError(400, "Invalid email, phone number or password");
     }
 
     const userResponse = toUserResponse(user);
