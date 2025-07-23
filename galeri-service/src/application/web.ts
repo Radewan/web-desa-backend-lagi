@@ -7,6 +7,7 @@ import { adminRouter } from "../router/admin-router";
 
 export const web = express();
 
+web.use(cors());
 web.use(express.json());
 
 web.use(
