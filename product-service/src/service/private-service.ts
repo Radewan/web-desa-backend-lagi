@@ -8,7 +8,7 @@ export class PrivateService {
   static async alreadyRated(
     productId: string,
     user: UserResponse
-  ): Promise<{ rated: boolean; rating?: number }> {
+  ): Promise<{ id?: string; rated: boolean; rating?: number }> {
     const product = await prismaClient.product.findUnique({
       where: { id: productId },
     });
@@ -25,10 +25,11 @@ export class PrivateService {
     });
 
     if (!rating) {
-      return { rated: false };
+      throw new ResponseError(400, "You have not rated this product yet");
     }
 
     return {
+      id: rating.id,
       rating: rating.rating,
       rated: !!rating,
     };
@@ -70,5 +71,51 @@ export class PrivateService {
     });
 
     return { rating: rating };
+  }
+  static async updateRating(
+    ratingId: string,
+    request: { rating: number },
+    user: UserResponse
+  ) {
+    const requestValidation = Validation.validate(
+      RatingValidation.create,
+      request
+    );
+    const rating = await prismaClient.rating.findUnique({
+      where: { id: ratingId },
+    });
+
+    if (!rating) {
+      throw new ResponseError(404, "Rating not found");
+    }
+
+    if (rating.user_id !== user.id) {
+      throw new ResponseError(403, "You are not allowed to update this rating");
+    }
+
+    const updatedRating = await prismaClient.rating.update({
+      where: { id: ratingId },
+      data: { rating: requestValidation.rating },
+    });
+
+    return { rating: updatedRating };
+  }
+
+  static async deleteRating(ratingId: string, user: UserResponse) {
+    const rating = await prismaClient.rating.findUnique({
+      where: { id: ratingId },
+    });
+
+    if (!rating) {
+      throw new ResponseError(404, "Rating not found");
+    }
+
+    if (rating.user_id !== user.id) {
+      throw new ResponseError(403, "You are not allowed to delete this rating");
+    }
+
+    await prismaClient.rating.delete({
+      where: { id: ratingId },
+    });
   }
 }

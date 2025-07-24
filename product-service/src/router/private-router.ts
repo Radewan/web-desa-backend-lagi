@@ -8,3 +8,5 @@ privateRouter.use(authMiddleware);
 
 privateRouter.get("/rating/:productId", PrivateController.alreadyRated);
 privateRouter.post("/rating/:productId", PrivateController.createRating);
+privateRouter.put("/rating/:ratingId", PrivateController.updateRating);
+privateRouter.delete("/rating/:ratingId", PrivateController.deleteRating);

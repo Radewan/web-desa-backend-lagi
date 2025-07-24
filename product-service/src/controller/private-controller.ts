@@ -35,4 +35,34 @@ export class PrivateController {
       next(error);
     }
   }
+
+  static async updateRating(
+    req: UserRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const response = await PrivateService.updateRating(
+        req.params.ratingId,
+        req.body,
+        req.user!
+      );
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteRating(
+    req: UserRequest,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      await PrivateService.deleteRating(req.params.ratingId, req.user!);
+      res.status(204).json({});
+    } catch (error) {
+      next(error);
+    }
+  }
 }
