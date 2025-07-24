@@ -60,6 +60,7 @@ export class UserValidation {
   static update: ZodType = z.object({
     name: z.string().optional(),
     email: z.string().email().optional(),
+    phone_number: z.string().optional(),
     password: z.string().min(6).optional(),
   });
 

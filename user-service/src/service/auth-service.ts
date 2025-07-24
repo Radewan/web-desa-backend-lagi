@@ -51,11 +51,25 @@ export class AuthService {
       }
     }
 
+    if (request.phone_number) {
+      const phoneExists = await prismaClient.user.count({
+        where: {
+          phone_number: request.phone_number,
+          id: { not: user.id },
+        },
+      });
+
+      if (phoneExists !== 0) {
+        throw new ResponseError(400, "Phone number already registered");
+      }
+    }
+
     const userUpdate = await prismaClient.user.update({
       where: { id: user.id },
       data: {
         ...(request.name && { name: request.name }),
         ...(request.email && { email: request.email }),
+        ...(request.phone_number && { phone_number: request.phone_number }),
         ...(request.password && { password: request.password }),
       },
     });
@@ -65,32 +79,32 @@ export class AuthService {
   static async delete(user: UserResponse, token: string) {
     if (user.role === "ADMIN") {
       await Promise.all([
-        axios.delete("http://localhost:3000/api/news/admin/delete-by-admin", {
+        axios.delete("http://localhost:3001/api/news/admin/delete-by-admin", {
           headers: {
             Authorization: token,
           },
         }),
-        axios.delete("http://localhost:3000/api/agenda/admin/delete-by-admin", {
+        axios.delete("http://localhost:3001/api/agenda/admin/delete-by-admin", {
           headers: {
             Authorization: token,
           },
         }),
         axios.delete(
-          "http://localhost:3000/api/products/admin/delete-by-admin",
+          "http://localhost:3001/api/products/admin/delete-by-admin",
           {
             headers: {
               Authorization: token,
             },
           }
         ),
-        axios.delete("http://localhost:3000/api/comments/delete-by-user", {
+        axios.delete("http://localhost:3001/api/comments/delete-by-user", {
           headers: {
             Authorization: token,
           },
         }),
       ]);
     } else if (user.role === "REGULAR") {
-      await axios.delete("http://localhost:3000/api/comments/delete-by-user", {
+      await axios.delete("http://localhost:3001/api/comments/delete-by-user", {
         headers: {
           Authorization: token,
         },

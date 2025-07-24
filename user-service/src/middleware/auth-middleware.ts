@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import { ResponseError } from "../error/response-error";
 import { UserRequest } from "../type/user-request";
-import { UserResponse } from "../model/user-model";
+import { toUserResponse, UserResponse } from "../model/user-model";
 import jwt from "jsonwebtoken";
 import { prismaClient } from "../application/database";
 
@@ -23,15 +23,15 @@ export const authMiddleware = async (
       process.env.JWT_SECRET_KEY as string
     ) as UserResponse;
 
-    const user = await prismaClient.user.count({
+    const user = await prismaClient.user.findUnique({
       where: { id: userResponse.id },
     });
 
-    if (user !== 1) {
+    if (!user) {
       throw new ResponseError(401, "Unauthorized");
     }
 
-    req.user = userResponse as UserResponse;
+    req.user = toUserResponse(user);
     next();
   } catch (error) {
     res.status(401).json({ error: "Unauthorized" });

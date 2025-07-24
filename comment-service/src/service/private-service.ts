@@ -73,18 +73,18 @@ export class PrivateService {
       throw new ResponseError(404, "Comment not found");
     }
 
-    if (comment.user_id !== user.id) {
-      throw new ResponseError(
-        403,
-        "You are not authorized to delete this comment"
-      );
+    if (user.role === "ADMIN" || comment.user_id === user.id) {
+      const commentDelete = await prismaClient.comment.delete({
+        where: { id: commentId },
+      });
+
+      return { comment: commentDelete };
     }
 
-    const commentDelete = await prismaClient.comment.delete({
-      where: { id: commentId },
-    });
-
-    return { comment: commentDelete };
+    throw new ResponseError(
+      403,
+      "You are not authorized to delete this comment"
+    );
   }
   static async deleteByTarget(
     targetId: string,

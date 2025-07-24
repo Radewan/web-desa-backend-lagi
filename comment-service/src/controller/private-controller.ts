@@ -17,6 +17,7 @@ export class PrivateController {
   }
   static async update(req: UserRequest, res: Response, next: NextFunction) {
     try {
+    
       const response = await PrivateService.update(
         req.body,
         req.params.commentId,

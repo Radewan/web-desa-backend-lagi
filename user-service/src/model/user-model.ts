@@ -38,6 +38,7 @@ export interface UserLoginRequest {
 export interface UserUpdateRequest {
   name?: string;
   email?: string;
+  phone_number?: string;
   password?: string;
 }
 
